@@ -1,7 +1,6 @@
 package com.hendris.hackerhank;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author hendris
@@ -11,8 +10,10 @@ import java.util.Map;
  */
 public class AlgorithmicCrushSolution {
 
+
+
     public static void main(String[] args) {
-        /*Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
 
         final String firstLine = in.nextLine();
         final String[] split = firstLine.split(" ");
@@ -21,19 +22,30 @@ public class AlgorithmicCrushSolution {
 
         final List<RangeValue> ranges = new ArrayList<>();
 
+        RangeValue rangeValue = null;
+
         for (int i = 0; i < N; i++) {
             final String rangeValueLine = in.nextLine();
             final String[] rangeValueSplit = rangeValueLine.split(" ");
             final RangeValue range = new RangeValue(Long.valueOf(rangeValueSplit[0]), Long.valueOf(rangeValueSplit[1]),
                     Long.valueOf(rangeValueSplit[2]));
             ranges.add(range);
+
+            if (rangeValue == null) {
+                rangeValue = range;
+            } else {
+                rangeValue = merge(rangeValue, range);
+            }
         }
+
 
         for (RangeValue range: ranges) {
             System.out.println(range);
-        }*/
+        }
 
-        RangeValue r1 = new RangeValue(0l, 1l, 100l);
+        print(rangeValue);
+
+        /*RangeValue r1 = new RangeValue(0l, 1l, 100l);
         RangeValue r2 = new RangeValue(2l, 5l, 100l);
 
         merge(r1, r2);
@@ -51,42 +63,81 @@ public class AlgorithmicCrushSolution {
         r1 = new RangeValue(4l, 6l, 100l);
         r2 = new RangeValue(2l, 5l, 100l);
 
-        merge(r1, r2);
-
-        /*print(r2.getValue(2l));
-        r2.add(2l, 50l);
-        print(r2.getValue(2l));*/
+        merge(r1, r2);*/
     }
 
     public static void print(Object value) {
         System.out.println(value);
     }
 
-    private static void merge (final RangeValue r1,
+    private static RangeValue merge(final RangeValue r1,
             final RangeValue r2) {
-        if (r1.getStart() < r2.getStart()) {
-            if (r1.getEnd() < r2.getStart()) {
-                System.out.println("r1 is out");
-            } else {
 
-                final long diff = r1.getEnd() - r2.getStart();
-
-                RangeValue newRange = new RangeValue(r1.getStart(), r2.getEnd(), 0l);
-                for (long i = r1.getStart(); i <= r1.getEnd(); i++) {
-                    newRange.add(i, r1.getValue(i));
-                }
-                for (long i = r2.getStart(); i <= r2.getEnd(); i++) {
-                    newRange.add(i, r2.getValue(i));
-                }
-                print(newRange);
-
-                System.out.println("r1.end is partially inside");
-            }
-        } else if (r1.getEnd() <= r2.getEnd()) {
-            System.out.println("r1 is inside");
-        } else {
-            System.out.println("r1.start is partially inside");
+        if ((r1.getStart() < r2.getStart() && r1.getEnd() < r2.getStart())
+                || r2.getStart() < r1.getStart() && r2.getEnd() < r1.getStart()) {
+            return null;
         }
+
+        if (r1.getStart() < r2.getStart() && r1.getEnd() >= r2.getStart() && r1.getEnd() <= r2.getEnd()) {
+            RangeValue newRange = new RangeValue(r1.getStart(), r2.getEnd(), 0l);
+            for (long i = r1.getStart(); i <= r1.getEnd(); i++) {
+                newRange.add(i, r1.getValue(i));
+            }
+            for (long i = r2.getStart(); i <= r2.getEnd(); i++) {
+                newRange.add(i, r2.getValue(i));
+            }
+            print(newRange);
+
+            System.out.println("r1.end is partially inside");
+
+            return newRange;
+        }
+
+        if (r2.getStart() < r1.getStart() && r2.getEnd() >= r1.getStart() && r2.getEnd() <= r1.getEnd()) {
+            RangeValue newRange = new RangeValue(r2.getStart(), r1.getEnd(), 0l);
+            for (long i = r1.getStart(); i <= r1.getEnd(); i++) {
+                newRange.add(i, r1.getValue(i));
+            }
+            for (long i = r2.getStart(); i <= r2.getEnd(); i++) {
+                newRange.add(i, r2.getValue(i));
+            }
+            print(newRange);
+
+            System.out.println("r2.end is partially inside");
+
+            return newRange;
+
+        }
+
+        if (r1.getStart() >= r2.getStart() && r1.getEnd() <= r2.getEnd()) {
+            RangeValue newRange = new RangeValue(r2.getStart(), r2.getEnd(), 0l);
+            for (long i = r2.getStart(); i <= r2.getEnd(); i++) {
+                newRange.add(i, r2.getValue(i));
+            }
+            for (long i = r1.getStart(); i <= r1.getEnd(); i++) {
+                newRange.add(i, r1.getValue(i));
+            }
+            print(newRange);
+
+            System.out.println("r1 is inside");
+
+            return newRange;
+        } else if (r2.getStart() >= r1.getStart() && r2.getEnd() <= r1.getEnd()) {
+            RangeValue newRange = new RangeValue(r1.getStart(), r1.getEnd(), 0l);
+            for (long i = r2.getStart(); i <= r2.getEnd(); i++) {
+                newRange.add(i, r2.getValue(i));
+            }
+            for (long i = r1.getStart(); i <= r1.getEnd(); i++) {
+                newRange.add(i, r1.getValue(i));
+            }
+            print(newRange);
+
+            System.out.println("r2 is inside");
+
+            return newRange;
+        }
+
+        return null;
     }
 
     static class RangeValue {
