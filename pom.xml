@@ -7,6 +7,13 @@
     <groupId>com.hendris</groupId>
     <artifactId>hackerhank</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.0.0-M2</version>
+        </dependency>
+    </dependencies>
 
-    
+
 </project>
