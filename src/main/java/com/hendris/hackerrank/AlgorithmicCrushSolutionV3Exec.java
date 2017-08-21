@@ -25,7 +25,7 @@ public class AlgorithmicCrushSolutionV3Exec {
         new AlgorithmicCrushSolution().main(null);*/
 
         final long start = System.currentTimeMillis();
-        System.setIn(new FileInputStream("HackerHankAlgorithmicCrushInput07.txt"));
+        System.setIn(new FileInputStream("HackerrankAlgorithmicCrushInput07.txt"));
 
         new AlgorithmicCrushSolutionV3().main(null);
 
