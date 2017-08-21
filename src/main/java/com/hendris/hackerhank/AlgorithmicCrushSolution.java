@@ -10,26 +10,28 @@ import java.util.*;
  */
 public class AlgorithmicCrushSolution {
 
+    public static boolean PRINT_MAX_VALUE = true;
 
+    public static boolean PRINT_MERGED_FINAL_RANGE = false;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
         final String firstLine = in.nextLine();
         final String[] split = firstLine.split(" ");
-        final Long M = Long.valueOf(split[0]);
-        final Long N = Long.valueOf(split[1]);
+        final Long N = Long.valueOf(split[0]);
+        final Long M = Long.valueOf(split[1]);
 
-        final List<RangeValue> ranges = new ArrayList<>();
+//        final List<RangeValue> ranges = new ArrayList<>();
 
         RangeValue rangeValue = null;
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < M; i++) {
             final String rangeValueLine = in.nextLine();
             final String[] rangeValueSplit = rangeValueLine.split(" ");
             final RangeValue range = new RangeValue(Long.valueOf(rangeValueSplit[0]), Long.valueOf(rangeValueSplit[1]),
                     Long.valueOf(rangeValueSplit[2]));
-            ranges.add(range);
+//            ranges.add(range);
 
             if (rangeValue == null) {
                 rangeValue = range;
@@ -38,44 +40,32 @@ public class AlgorithmicCrushSolution {
             }
         }
 
+        if (PRINT_MERGED_FINAL_RANGE)
+            print(rangeValue);
 
-        for (RangeValue range: ranges) {
-            System.out.println(range);
-        }
-
-        print(rangeValue);
-
-        /*RangeValue r1 = new RangeValue(0l, 1l, 100l);
-        RangeValue r2 = new RangeValue(2l, 5l, 100l);
-
-        merge(r1, r2);
-
-        r1 = new RangeValue(1l, 2l, 100l);
-        r2 = new RangeValue(2l, 5l, 100l);
-
-        merge(r1, r2);
-
-        r1 = new RangeValue(2l, 3l, 100l);
-        r2 = new RangeValue(2l, 5l, 100l);
-
-        merge(r1, r2);
-
-        r1 = new RangeValue(4l, 6l, 100l);
-        r2 = new RangeValue(2l, 5l, 100l);
-
-        merge(r1, r2);*/
+        if (PRINT_MAX_VALUE)
+            print(rangeValue.getMaxValue());
     }
 
     public static void print(Object value) {
         System.out.println(value);
     }
 
-    private static RangeValue merge(final RangeValue r1,
+    static RangeValue merge(final RangeValue r1,
             final RangeValue r2) {
 
         if ((r1.getStart() < r2.getStart() && r1.getEnd() < r2.getStart())
                 || r2.getStart() < r1.getStart() && r2.getEnd() < r1.getStart()) {
-            return null;
+            Long start = r1.getStart() < r2.getStart() ? r1.getStart() : r2.getStart();
+            Long end = r1.getEnd() > r2.getEnd() ? r1.getEnd() : r2.getEnd();
+            RangeValue newRange = new RangeValue(start, end, 0l);
+            for (long i = r1.getStart(); i <= r1.getEnd(); i++) {
+                newRange.add(i, r1.getValue(i));
+            }
+            for (long i = r2.getStart(); i <= r2.getEnd(); i++) {
+                newRange.add(i, r2.getValue(i));
+            }
+            return newRange;
         }
 
         if (r1.getStart() < r2.getStart() && r1.getEnd() >= r2.getStart() && r1.getEnd() <= r2.getEnd()) {
@@ -86,10 +76,6 @@ public class AlgorithmicCrushSolution {
             for (long i = r2.getStart(); i <= r2.getEnd(); i++) {
                 newRange.add(i, r2.getValue(i));
             }
-            print(newRange);
-
-            System.out.println("r1.end is partially inside");
-
             return newRange;
         }
 
@@ -101,10 +87,6 @@ public class AlgorithmicCrushSolution {
             for (long i = r2.getStart(); i <= r2.getEnd(); i++) {
                 newRange.add(i, r2.getValue(i));
             }
-            print(newRange);
-
-            System.out.println("r2.end is partially inside");
-
             return newRange;
 
         }
@@ -117,10 +99,6 @@ public class AlgorithmicCrushSolution {
             for (long i = r1.getStart(); i <= r1.getEnd(); i++) {
                 newRange.add(i, r1.getValue(i));
             }
-            print(newRange);
-
-            System.out.println("r1 is inside");
-
             return newRange;
         } else if (r2.getStart() >= r1.getStart() && r2.getEnd() <= r1.getEnd()) {
             RangeValue newRange = new RangeValue(r1.getStart(), r1.getEnd(), 0l);
@@ -130,17 +108,13 @@ public class AlgorithmicCrushSolution {
             for (long i = r1.getStart(); i <= r1.getEnd(); i++) {
                 newRange.add(i, r1.getValue(i));
             }
-            print(newRange);
-
-            System.out.println("r2 is inside");
-
             return newRange;
         }
 
         return null;
     }
 
-    static class RangeValue {
+    public static class RangeValue {
 
         Long start;
         Long end;
@@ -180,6 +154,12 @@ public class AlgorithmicCrushSolution {
             } else {
                 return initialValue;
             }
+        }
+
+        public Long getMaxValue() {
+            final List<Long> values = new ArrayList<>(this.values.values());
+            Collections.sort(values);
+            return values.get(values.size() - 1);
         }
 
         @Override
