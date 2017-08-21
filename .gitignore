@@ -5,3 +5,5 @@
 /gradle
 /classes
 /target
+JenkinsFile
+hackerhank.iml
