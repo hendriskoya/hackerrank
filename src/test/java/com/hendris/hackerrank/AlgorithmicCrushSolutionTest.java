@@ -1,4 +1,4 @@
-package com.hendris.hackerhank;
+package com.hendris.hackerrank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -10,7 +10,7 @@ import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
 
-import com.hendris.hackerhank.AlgorithmicCrushSolution.RangeValue;
+import com.hendris.hackerrank.AlgorithmicCrushSolution.RangeValue;
 
 /**
  * @author hendris

@@ -1,4 +1,4 @@
-package com.hendris.hackerhank;
+package com.hendris.hackerrank;
 
 /**
  * @author hendris

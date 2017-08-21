@@ -1,4 +1,4 @@
-package com.hendris.hackerhank;
+package com.hendris.hackerrank;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
  *          $Id: $
  * @since 2/3/17 7:36 PM
  */
-public class AlgorithmicCrushSolutionV2Exec {
+public class AlgorithmicCrushSolutionExec {
 
     public static void main(String[] args) throws FileNotFoundException {
         /*System.setIn(new FileInputStream("AlgorithmicCrushInput01.txt"));
@@ -25,14 +25,14 @@ public class AlgorithmicCrushSolutionV2Exec {
         new AlgorithmicCrushSolution().main(null);*/
 
         final long start = System.currentTimeMillis();
-        System.setIn(new FileInputStream("HackerHankAlgorithmicCrushInput04.txt"));
+        System.setIn(new FileInputStream("HackerHankAlgorithmicCrushInput07.txt"));
 
-        new AlgorithmicCrushSolutionV2().main(null);
+        new AlgorithmicCrushSolution().main(null);
 
         final long end = System.currentTimeMillis();
 
         System.out.println(end - start);
 
-        //5855 milliseconds
+        //04 - 5855 milliseconds
     }
 }
